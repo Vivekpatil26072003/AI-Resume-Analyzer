@@ -59,3 +59,5 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ score, className = '' }) => {
 
 export default ScoreCard;
 
+
+
