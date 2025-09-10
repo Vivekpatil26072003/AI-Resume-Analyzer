@@ -9,7 +9,19 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from services.resume_analyzer import ResumeAnalyzer
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000", "http://127.0.0.1:3000"], supports_credentials=True)
+# Configure CORS for production
+allowed_origins = [
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000",
+    "https://ai-resume-analyzer.netlify.app",
+    "https://ai-resume-analyzer.vercel.app"
+]
+
+# Add environment variable for custom origins
+if os.getenv("CORS_ORIGINS"):
+    allowed_origins.extend(os.getenv("CORS_ORIGINS").split(","))
+
+CORS(app, origins=allowed_origins, supports_credentials=True)
 
 # Initialize resume analyzer
 resume_analyzer = ResumeAnalyzer()

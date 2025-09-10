@@ -203,8 +203,18 @@ Health check endpoint.
 The application uses a predefined skills database located in `backend/data/skills.json`. You can customize this file to include domain-specific skills for your use case.
 
 ### Environment Variables
-- **Backend:** Copy `backend/env.example` to `backend/.env` and modify as needed
-- **Frontend:** Copy `frontend/env.local.example` to `frontend/.env.local` and modify as needed
+
+**Frontend (.env.local):**
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url.herokuapp.com
+```
+
+**Backend (.env):**
+```env
+FLASK_ENV=production
+FLASK_DEBUG=False
+CORS_ORIGINS=https://your-frontend-url.netlify.app
+```
 
 ### Customization
 - **Skills Database:** Edit `backend/data/skills.json` to add/remove skills
@@ -217,14 +227,19 @@ The application uses a predefined skills database located in `backend/data/skill
 
 **For Netlify (Frontend):**
 1. Connect your GitHub repository to Netlify
-2. Build command: `cd frontend && npm install && npm run build`
-3. Publish directory: `frontend/out`
+2. Build command: `npm run build` (automatically configured in netlify.toml)
+3. Publish directory: `out` (automatically configured in netlify.toml)
 4. Set environment variable: `NEXT_PUBLIC_API_URL=https://your-backend-url.herokuapp.com`
 
 **For Heroku (Backend):**
 ```bash
-cd backend
+# Create Heroku app
 heroku create your-app-name
+
+# Set environment variables
+heroku config:set CORS_ORIGINS=https://your-frontend-url.netlify.app
+
+# Deploy backend
 git subtree push --prefix backend heroku main
 ```
 
